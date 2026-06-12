@@ -122,41 +122,43 @@
   }
 
   function createDocButton(doc, index) {
-    const link = document.createElement("a");
-    link.className = `doc-item${index === state.currentIndex ? " active" : ""}`;
-    link.href = pdfUrl(doc, 1);
-    link.target = "_blank";
-    link.rel = "noreferrer";
-    link.innerHTML = `
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `doc-item${index === state.currentIndex ? " active" : ""}`;
+    button.innerHTML = `
       <span class="doc-title"></span>
       <span class="doc-subtitle">
         <span class="tag">${doc.pages} pagine</span>
         <span class="tag ${searchClass(doc)}">${searchLabel(doc)}</span>
       </span>
     `;
-    link.querySelector(".doc-title").textContent = doc.title;
-    link.querySelectorAll(".tag")[0].textContent = `${doc.pages} pagine`;
-    link.querySelectorAll(".tag")[1].textContent = searchLabel(doc);
-    return link;
+    button.querySelector(".doc-title").textContent = doc.title;
+    button.querySelectorAll(".tag")[0].textContent = `${doc.pages} pagine`;
+    button.querySelectorAll(".tag")[1].textContent = searchLabel(doc);
+    button.addEventListener("click", () => {
+      openDocument(index, 1, true);
+    });
+    return button;
   }
 
   function createResultButton(result) {
-    const link = document.createElement("a");
-    link.className = "result-item";
-    link.href = pdfUrl(result.doc, result.page);
-    link.target = "_blank";
-    link.rel = "noreferrer";
-    link.innerHTML = `
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "result-item";
+    button.innerHTML = `
       <span class="result-title"></span>
       <span class="result-subtitle">
         <span class="tag"></span>
         <span class="tag searchable"></span>
       </span>
     `;
-    link.querySelector(".result-title").textContent = result.doc.title;
-    link.querySelectorAll(".tag")[0].textContent = `Pagina ${result.page}`;
-    link.querySelectorAll(".tag")[1].textContent = result.reason;
-    return link;
+    button.querySelector(".result-title").textContent = result.doc.title;
+    button.querySelectorAll(".tag")[0].textContent = `Pagina ${result.page}`;
+    button.querySelectorAll(".tag")[1].textContent = result.reason;
+    button.addEventListener("click", () => {
+      openDocument(result.index, result.page, true);
+    });
+    return button;
   }
 
   function searchDocuments(query) {

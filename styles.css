@@ -149,14 +149,12 @@ input {
 
 .doc-item,
 .result-item {
-  display: block;
   width: 100%;
   padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
   color: inherit;
-  text-decoration: none;
   text-align: left;
   cursor: pointer;
 }
