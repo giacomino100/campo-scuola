@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Materiali - Consultazione PDF</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Documenti">
+        <div class="brand">
+          <div class="brand-mark">PDF</div>
+          <div>
+            <h1>Materiali</h1>
+            <p id="librarySummary">Tocca un documento per aprirlo</p>
+          </div>
+        </div>
+
+        <label class="field-label" for="searchInput">Ricerca</label>
+        <input id="searchInput" class="search-input" type="search" autocomplete="off" placeholder="Cerca nei titoli o nel testo">
+        <div id="searchStatus" class="search-status" aria-live="polite"></div>
+
+        <nav id="docList" class="doc-list" aria-label="Elenco documenti"></nav>
+      </aside>
+
+      <main class="reader">
+        <header class="reader-bar">
+          <div class="title-block">
+            <p id="docMeta" class="eyebrow">PDF originale</p>
+            <h2 id="docTitle">Materiali</h2>
+          </div>
+
+          <div class="toolbar" aria-label="Comandi documento">
+            <button id="prevDocButton" class="tool-button doc-nav-button" type="button" title="Documento precedente">Prec.</button>
+            <button id="nextDocButton" class="tool-button doc-nav-button" type="button" title="Documento successivo">Succ.</button>
+            <div class="page-control">
+              <label for="pageInput">Pagina</label>
+              <input id="pageInput" type="number" min="1" value="1">
+              <span id="pageTotal">/ 1</span>
+            </div>
+            <button id="prevPageButton" class="tool-button icon-button" type="button" title="Pagina precedente">&lt;</button>
+            <button id="nextPageButton" class="tool-button icon-button" type="button" title="Pagina successiva">&gt;</button>
+            <a id="openButton" class="tool-link" target="_blank" rel="noreferrer">Apri</a>
+          </div>
+        </header>
+
+        <section class="content-area">
+          <div class="pdf-panel">
+            <iframe id="pdfFrame" title="Visualizzatore PDF"></iframe>
+            <div class="pdf-fallback">
+              <p>Se il PDF non viene mostrato bene dal browser, aprilo nel lettore del telefono.</p>
+              <a id="mobileOpenButton" class="tool-link primary-link" target="_blank" rel="noreferrer">Apri PDF</a>
+            </div>
+          </div>
+
+          <details id="detailsPanel" class="details-panel" aria-label="Dettagli documento">
+            <summary>Dettagli documento</summary>
+            <dl class="details-list">
+              <div>
+                <dt>Pagine</dt>
+                <dd id="detailPages">-</dd>
+              </div>
+              <div>
+                <dt>Ricerca testo</dt>
+                <dd id="detailSearch">-</dd>
+              </div>
+              <div>
+                <dt>Dimensione</dt>
+                <dd id="detailSize">-</dd>
+              </div>
+              <div>
+                <dt>File</dt>
+                <dd id="detailFile">-</dd>
+              </div>
+            </dl>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <script src="pdf-index.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
