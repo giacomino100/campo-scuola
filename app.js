@@ -40,10 +40,6 @@
     return `${encodePdfPath(doc.file)}#page=${page}&zoom=page-fit`;
   }
 
-  function openPdfDirect(doc, page) {
-    window.location.href = pdfUrl(doc, page || 1);
-  }
-
   function formatBytes(bytes) {
     if (!Number.isFinite(bytes)) return "-";
     const units = ["B", "KB", "MB", "GB"];
@@ -140,7 +136,7 @@
     button.querySelectorAll(".tag")[0].textContent = `${doc.pages} pagine`;
     button.querySelectorAll(".tag")[1].textContent = searchLabel(doc);
     button.addEventListener("click", () => {
-      openPdfDirect(doc, 1);
+      openDocument(index, 1, true);
     });
     return button;
   }
@@ -160,7 +156,7 @@
     button.querySelectorAll(".tag")[0].textContent = `Pagina ${result.page}`;
     button.querySelectorAll(".tag")[1].textContent = result.reason;
     button.addEventListener("click", () => {
-      openPdfDirect(result.doc, result.page);
+      openDocument(result.index, result.page, true);
     });
     return button;
   }
