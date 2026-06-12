@@ -2,12 +2,13 @@
   const library = window.PDF_LIBRARY || { documents: [] };
   const documents = library.documents || [];
   const state = {
-    currentIndex: 0,
+    currentIndex: null,
     page: 1,
     query: ""
   };
 
   const nodes = {
+    appShell: document.getElementById("appShell"),
     librarySummary: document.getElementById("librarySummary"),
     searchInput: document.getElementById("searchInput"),
     searchStatus: document.getElementById("searchStatus"),
@@ -15,6 +16,7 @@
     docTitle: document.getElementById("docTitle"),
     docMeta: document.getElementById("docMeta"),
     pdfFrame: document.getElementById("pdfFrame"),
+    backToLibraryButton: document.getElementById("backToLibraryButton"),
     prevDocButton: document.getElementById("prevDocButton"),
     nextDocButton: document.getElementById("nextDocButton"),
     prevPageButton: document.getElementById("prevPageButton"),
@@ -60,28 +62,38 @@
     return doc.textPages > 0 ? "searchable" : "image";
   }
 
-  function currentDoc() {
-    return documents[state.currentIndex];
-  }
-
-  function isCompactScreen() {
-    return window.matchMedia("(max-width: 560px)").matches;
-  }
-
-  function openPdfDirect(doc, page) {
-    window.location.href = pdfUrl(doc, page || 1);
-  }
-
   function clampPage(doc, page) {
     return Math.min(Math.max(Number(page) || 1, 1), doc.pages || 1);
   }
 
-  function openDocument(index, page) {
+  function showLibrary(syncHash) {
+    state.currentIndex = null;
+    state.page = 1;
+    nodes.appShell.classList.add("library-mode");
+    nodes.appShell.classList.remove("reader-mode");
+    nodes.pdfFrame.removeAttribute("src");
+    renderList();
+
+    if (syncHash) {
+      history.pushState(null, "", window.location.pathname + window.location.search);
+    }
+  }
+
+  function syncReaderHash(doc, page) {
+    const params = new URLSearchParams();
+    params.set("doc", doc.id);
+    params.set("page", String(page));
+    history.pushState(null, "", `#${params.toString()}`);
+  }
+
+  function openDocument(index, page, syncHash) {
     const doc = documents[index];
     if (!doc) return;
 
     state.currentIndex = index;
     state.page = clampPage(doc, page);
+    nodes.appShell.classList.remove("library-mode");
+    nodes.appShell.classList.add("reader-mode");
 
     nodes.docTitle.textContent = doc.title;
     nodes.docMeta.textContent = "PDF originale";
@@ -103,6 +115,10 @@
     nodes.nextPageButton.disabled = state.page >= doc.pages;
 
     renderList();
+
+    if (syncHash) {
+      syncReaderHash(doc, state.page);
+    }
   }
 
   function createDocButton(doc, index) {
@@ -120,11 +136,7 @@
     button.querySelectorAll(".tag")[0].textContent = `${doc.pages} pagine`;
     button.querySelectorAll(".tag")[1].textContent = searchLabel(doc);
     button.addEventListener("click", () => {
-      if (isCompactScreen()) {
-        openPdfDirect(doc, 1);
-        return;
-      }
-      openDocument(index, 1);
+      openDocument(index, 1, true);
     });
     return button;
   }
@@ -144,11 +156,7 @@
     button.querySelectorAll(".tag")[0].textContent = `Pagina ${result.page}`;
     button.querySelectorAll(".tag")[1].textContent = result.reason;
     button.addEventListener("click", () => {
-      if (isCompactScreen()) {
-        openPdfDirect(result.doc, result.page);
-        return;
-      }
-      openDocument(result.index, result.page);
+      openDocument(result.index, result.page, true);
     });
     return button;
   }
@@ -208,9 +216,7 @@
     const compactMedia = window.matchMedia("(max-width: 560px)");
 
     function syncSummary() {
-      nodes.librarySummary.textContent = compactMedia.matches
-        ? `${documents.length} documenti - tocca per aprire`
-        : `${documents.length} documenti PDF`;
+      nodes.librarySummary.textContent = `${documents.length} documenti - tocca per aprire`;
     }
 
     function syncDetailsPanel() {
@@ -219,40 +225,70 @@
 
     syncSummary();
     syncDetailsPanel();
-    compactMedia.addEventListener("change", () => {
+
+    const handleViewportChange = () => {
       syncSummary();
       syncDetailsPanel();
-    });
+    };
+
+    if (compactMedia.addEventListener) {
+      compactMedia.addEventListener("change", handleViewportChange);
+    } else {
+      compactMedia.addListener(handleViewportChange);
+    }
 
     nodes.searchInput.addEventListener("input", (event) => {
       state.query = event.target.value;
       renderList();
     });
 
+    nodes.backToLibraryButton.addEventListener("click", () => {
+      showLibrary(true);
+    });
+
     nodes.prevDocButton.addEventListener("click", () => {
-      openDocument(state.currentIndex - 1, 1);
+      openDocument(state.currentIndex - 1, 1, true);
     });
 
     nodes.nextDocButton.addEventListener("click", () => {
-      openDocument(state.currentIndex + 1, 1);
+      openDocument(state.currentIndex + 1, 1, true);
     });
 
     nodes.prevPageButton.addEventListener("click", () => {
-      openDocument(state.currentIndex, state.page - 1);
+      openDocument(state.currentIndex, state.page - 1, true);
     });
 
     nodes.nextPageButton.addEventListener("click", () => {
-      openDocument(state.currentIndex, state.page + 1);
+      openDocument(state.currentIndex, state.page + 1, true);
     });
 
     nodes.pageInput.addEventListener("change", (event) => {
-      openDocument(state.currentIndex, event.target.value);
+      openDocument(state.currentIndex, event.target.value, true);
     });
+
+    window.addEventListener("popstate", () => {
+      openFromHash(false);
+    });
+  }
+
+  function openFromHash(syncHash) {
+    const rawHash = window.location.hash.replace(/^#/, "");
+    const params = new URLSearchParams(rawHash);
+    const docId = params.get("doc");
+    const index = documents.findIndex((doc) => doc.id === docId);
+
+    if (index === -1) {
+      showLibrary(false);
+      return;
+    }
+
+    openDocument(index, params.get("page") || 1, syncHash);
   }
 
   function init() {
     bindEvents();
-    openDocument(0, 1);
+    renderList();
+    openFromHash(false);
   }
 
   init();

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div class="app-shell">
+    <div id="appShell" class="app-shell library-mode">
       <aside class="sidebar" aria-label="Documenti">
         <div class="brand">
           <div class="brand-mark">PDF</div>
@@ -32,6 +32,7 @@
           </div>
 
           <div class="toolbar" aria-label="Comandi documento">
+            <button id="backToLibraryButton" class="tool-button back-button" type="button" title="Torna all'elenco">Elenco</button>
             <button id="prevDocButton" class="tool-button doc-nav-button" type="button" title="Documento precedente">Prec.</button>
             <button id="nextDocButton" class="tool-button doc-nav-button" type="button" title="Documento successivo">Succ.</button>
             <div class="page-control">

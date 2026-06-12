@@ -41,6 +41,32 @@ input {
   min-height: 100vh;
 }
 
+.app-shell.library-mode {
+  display: block;
+}
+
+.app-shell.library-mode .sidebar {
+  min-height: 100vh;
+  max-width: 1080px;
+  margin: 0 auto;
+  border-right: 0;
+}
+
+.app-shell.library-mode .doc-list {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-content: start;
+  overflow: visible;
+}
+
+.app-shell.library-mode .reader,
+.app-shell.reader-mode .sidebar {
+  display: none;
+}
+
+.app-shell.reader-mode {
+  display: block;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -230,6 +256,13 @@ input {
   cursor: pointer;
 }
 
+.back-button {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+  font-weight: 800;
+}
+
 .tool-button:hover,
 .tool-link:hover {
   border-color: var(--accent);
@@ -353,6 +386,10 @@ input {
     max-height: 280px;
   }
 
+  .app-shell.library-mode .doc-list {
+    max-height: none;
+  }
+
   .reader-bar,
   .content-area {
     grid-template-columns: 1fr;
@@ -402,6 +439,11 @@ input {
     gap: 10px;
     min-height: 100dvh;
     border-bottom: 0;
+  }
+
+  .app-shell.library-mode .sidebar {
+    min-height: 100dvh;
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
   }
 
   .brand-mark {
@@ -458,8 +500,9 @@ input {
     margin-top: 8px;
   }
 
-  .reader {
-    display: none;
+  .app-shell.reader-mode .reader {
+    display: flex;
+    min-height: 100dvh;
   }
 
   .reader-bar {
@@ -478,7 +521,7 @@ input {
   .toolbar {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 7px;
   }
 
@@ -499,8 +542,8 @@ input {
     width: 100%;
   }
 
-  .doc-nav-button {
-    order: 4;
+  .back-button {
+    grid-column: 1 / -1;
   }
 
   #openButton {
