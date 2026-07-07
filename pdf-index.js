@@ -3,6 +3,26 @@ window.PDF_LIBRARY = {
   "note": "Indice separato generato dai PDF originali. I file PDF non sono stati modificati.",
   "documents": [
     {
+      "id": "doc-00",
+      "title": "Programma del campo",
+      "file": "PROGRAMMA_sintetico.pdf",
+      "featured": true,
+      "pages": 2,
+      "textPages": 2,
+      "characters": 1250,
+      "size": 3848,
+      "searchPages": [
+        {
+          "page": 1,
+          "text": "Sempre allegri\nVerso l'alto con Pier Giorgio – Programma del campo\nGIOVEDÌ 16 LUGLIO 2026 – Il giovane delle otto beatitudini\n11:00 Arrivi e accoglienza\n11:30 Intro campo + drammatizzazione\n12:00 Liturgia di accoglienza\n13:00 Pranzo\n15:00 Drammatizzazione - L'amicizia e il pacco di lettere\n15:30 Attività - «Amicizia in costruzione»\n17:00 Merenda\n17:30 Grande Gioco - Mercurio\n19:00 Laboratorio creativo\n20:00 Cena\n21:00 Outdoor Celebration\n23:00 Regola di vita - Rendere grazie\nVENERDÌ 17 LUGLIO – Pier Giorgio, l'amico degli ultimi\n8:00 Colazione\n8:30 Preghiera del mattino\n9:00 Drammatizzazione - La carità e il vaso\n9:30 Attività - «Progettarsi insieme»\n12:00 Laboratorio creativo\n13:00 Pranzo\n15:00 Grande Gioco - Marte\n17:00 Attività di deserto - «La vetta dell'interiorità»\n18:30 Liturgia penitenziale\n20:00 Cena\n21:00 A caccia di Frassati\n23:00 Regola di vita - Cercare\nSABATO 18 LUGLIO – Pier Giorgio e la responsabilità associativa\n8:00 Colazione\n8:30 Preghiera del mattino\n9:00 Drammatizzazione - La tessera e la bandiera dell'AC\n9:30 Attività - «Costruttori di comunità»"
+        },
+        {
+          "page": 2,
+          "text": "11:30 Regola di vita - Prendersi cura\n12:00 Laboratorio creativo\n13:00 Pranzo\n15:00 Giochi d'acqua\n17:00 Docce e sistemazione camere\n18:30 Uscita al lungomare di Trapani\n20:30 Cena\n21:30 AC Show\nDOMENICA 19 LUGLIO 2026 – Ragazzi, testimoni di santità\n7:30 Sveglia e sistemazione valigie\n8:30 Colazione\n9:00 Drammatizzazione - La corda della cordata\n9:30 Attività di verifica - «Rewind, un impegno per domani»\n10:00 Momento finale con i genitori\n11:30 Messa"
+        }
+      ]
+    },
+    {
       "id": "doc-01",
       "title": "Introduzione",
       "file": "Introduzione.pdf",

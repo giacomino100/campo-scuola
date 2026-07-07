@@ -124,8 +124,12 @@
   function createDocButton(doc, index) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `doc-item${index === state.currentIndex ? " active" : ""}`;
+    const classes = ["doc-item"];
+    if (doc.featured) classes.push("featured");
+    if (index === state.currentIndex) classes.push("active");
+    button.className = classes.join(" ");
     button.innerHTML = `
+      ${doc.featured ? '<span class="featured-badge">★ Programma del campo</span>' : ""}
       <span class="doc-title"></span>
       <span class="doc-subtitle">
         <span class="tag">${doc.pages} pagine</span>

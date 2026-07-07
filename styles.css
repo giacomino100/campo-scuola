@@ -166,6 +166,36 @@ input {
   background: var(--accent-soft);
 }
 
+.doc-item.featured {
+  border: 2px solid var(--accent);
+  background: linear-gradient(180deg, var(--accent-soft), #fff);
+  box-shadow: 0 10px 26px rgba(15, 123, 115, 0.22);
+}
+
+.doc-item.featured:hover,
+.doc-item.featured.active {
+  background: var(--accent-soft);
+}
+
+.doc-item.featured .doc-title {
+  font-size: 1.08rem;
+  color: var(--accent);
+}
+
+.featured-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .doc-title,
 .result-title {
   display: block;
